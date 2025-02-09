@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        function redirectToApp() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const markerId = urlParams.get("marker");
+
+            if (markerId) {
+
+                const appUrl = `ekoalarm://marker/${markerId}`;
+
+                window.location.href = appUrl;
+
+                setTimeout(() => {
+                    window.location.href = "https://play.google.com/store/apps/details?id=com.example.mtsaplikacija";
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body onload="redirectToApp()">
+    <p>If you are not redirected, <a id="manualLink">click here</a>.</p>
+    <script>
+        document.getElementById("manualLink").href = "ekoalarm://marker/";
+    </script>
+</body>
+</html>

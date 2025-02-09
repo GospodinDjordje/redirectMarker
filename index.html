@@ -5,27 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
     <script>
-        function redirectToApp() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const markerId = urlParams.get("marker");
+        window.onload = function() {
+            // Get the marker ID from the URL
+            const params = new URLSearchParams(window.location.search);
+            const markerId = params.get("marker");
 
             if (markerId) {
-
-                const appUrl = `ekoalarm://marker/${markerId}`;
-
-                window.location.href = appUrl;
+                window.location.href = `ekoalarm://marker/${markerId}`;
 
                 setTimeout(() => {
-                    window.location.href = "https://play.google.com/store/apps/details?id=com.example.mtsaplikacija";
-                }, 2000);
+                    document.getElementById("fallback").style.display = "block";
+                }, 3000);
+            } else {
+                document.getElementById("error").style.display = "block";
             }
-        }
+        };
     </script>
 </head>
-<body onload="redirectToApp()">
-    <p>If you are not redirected, <a id="manualLink">click here</a>.</p>
-    <script>
-        document.getElementById("manualLink").href = "ekoalarm://marker/";
-    </script>
+<body>
+    <h1>Opening the app...</h1>
+    <p id="fallback" style="display: none;">
+        If nothing happens, <a id="manualLink">click here</a>.
+        <script>
+            document.getElementById("manualLink").href = `ekoalarm://marker/${new URLSearchParams(window.location.search).get("marker")}`;
+        </script>
+    </p>
+    <p id="error" style="display: none;">Invalid link. No marker ID provided.</p>
 </body>
 </html>
